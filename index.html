@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>福建省交通事故赔偿计算器</title>
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:20px;background:#f5f7fa;color:#333}
+        h1{text-align:center;color:#00529b;margin-bottom:10px}
+        .box{background:#fff;border:1px solid #d0d0d0;border-radius:6px;margin-bottom:20px;padding:15px}
+        h2{margin:0 0 10px;font-size:18px;color:#00529b;border-bottom:1px solid #d0d0d0;padding-bottom:5px}
+        .row{display:flex;align-items:center;margin:8px 0}
+        .row label{width:180px;font-weight:bold}
+        .row input[type=number]{width:140px;padding:5px;border:1px solid #bbb;border-radius:3px}
+        .row .unit{margin-left:6px;color:#666}
+        .note{font-size:13px;color:#555;margin:4px 0 10px 180px;line-height:1.4}
+        .subtotal{font-weight:bold;font-size:16px;color:#c00;text-align:right;margin-top:10px}
+        .total{font-weight:bold;font-size:20px;color:#c00;text-align:right;margin-top:15px}
+        button{display:block;margin:20px auto;padding:10px 30px;font-size:16px;background:#00529b;color:#fff;border:none;border-radius:4px;cursor:pointer}
+        button:hover{background:#003d73}
+    </style>
+</head>
+<body>
+<h1>福建省交通事故赔偿计算器</h1>
+
+<!-- 医疗类 -->
+<div class="box">
+    <h2>一、医疗类项目（小计）</h2>
+
+    <div class="row"><label>1. 医疗费</label><input id="medFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">凭票据实填；已扣除非医保、不合理费用。</div>
+
+    <div class="row"><label>2. 住院伙食补助费</label><input id="hospDays" type="number" step="1" value="0" min="0"><span class="unit">天</span></div>
+    <div class="note">60元/天 × 住院天数（系统自动计算）。</div>
+
+    <div class="row"><label>3. 营养费</label><input id="nutriFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">有鉴定按30元/天×营养期+伤残级数×1000元；无鉴定住院按30元/天×住院天数（上限1500元）。</div>
+
+    <div class="row"><label>4. 后续治疗费</label><input id="followFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">医嘱或鉴定确定的必然发生费用。</div>
+
+    <div class="subtotal">医疗类小计：<span id="medSub">0.00</span> 元</div>
+</div>
+
+<!-- 伤残/死亡及其他类 -->
+<div class="box">
+    <h2>二、伤残/死亡及其他类项目（小计）</h2>
+
+    <div class="row"><label>5. 误工费</label><input id="lostWage" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">按实际减少收入或行业标准计算。</div>
+
+    <div class="row"><label>6. 护理费</label><input id="careFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">住院/出院/定残后按护工标准或依赖程度计算。</div>
+
+    <div class="row"><label>7. 交通费</label><input id="trafficFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">凭票据实；无票同城30元/次×门诊/出入院次数。</div>
+
+    <div class="row"><label>8. 残疾赔偿金</label><input id="disableFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">福建城镇人均可支配收入×年限×伤残系数。</div>
+
+    <div class="row"><label>9. 残疾辅助器具费</label><input id="aidFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">国产普通型价格×数量×更换次数。</div>
+
+    <div class="row"><label>10. 死亡赔偿金</label><input id="deathFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">同残疾赔偿金计算方式（死亡按100%）。</div>
+
+    <div class="row"><label>11. 被扶养人生活费</label><input id="supportFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">福建城镇人均消费支出×年限×系数÷扶养人数。</div>
+
+    <div class="row"><label>12. 精神损害抚慰金</label><input id="spiritFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">参考伤残等级（死亡/一级10万元…十级1万元）。</div>
+
+    <div class="row"><label>13. 财产损失</label><input id="propFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">维修、施救、停运损失等直接/间接损失。</div>
+
+    <div class="row"><label>14. 鉴定/评估费</label><input id="evalFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
+    <div class="note">按实际票据，由败诉方承担。</div>
+
+    <div class="subtotal">伤残/死亡及其他类小计：<span id="otherSub">0.00</span> 元</div>
+</div>
+
+<!-- 总计 -->
+<div class="box">
+    <div class="total">合计应赔总额：<span id="grandTotal">0.00</span> 元</div>
+</div>
+
+<button onclick="calcAll()">重新计算</button>
+
+<script>
+// 住院伙食补助费自动计算
+document.getElementById('hospDays').addEventListener('input',calcAll);
+
+function calcAll(){
+    // 医疗类
+    let medFee     = parseFloat(document.getElementById('medFee').value) || 0;
+    let hospDays   = parseInt(document.getElementById('hospDays').value)   || 0;
+    let hospFood   = hospDays * 60;
+    let nutriFee   = parseFloat(document.getElementById('nutriFee').value) || 0;
+    let followFee  = parseFloat(document.getElementById('followFee').value)|| 0;
+    let medSubTot  = medFee + hospFood + nutriFee + followFee;
+
+    // 伤残/死亡及其他类
+    let otherItems = ['lostWage','careFee','trafficFee','disableFee','aidFee',
+                      'deathFee','supportFee','spiritFee','propFee','evalFee'];
+    let otherSubTot = 0;
+    otherItems.forEach(function(id){
+        otherSubTot += parseFloat(document.getElementById(id).value) || 0;
+    });
+
+    // 显示
+    document.getElementById('medSub').textContent     = medSubTot.toFixed(2);
+    document.getElementById('otherSub').textContent   = otherSubTot.toFixed(2);
+    document.getElementById('grandTotal').textContent = (medSubTot + otherSubTot).toFixed(2);
+}
+
+// 初始计算
+calcAll();
+</script>
+</body>
+</html>
