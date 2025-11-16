@@ -3,77 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <title>福建省交通事故赔偿计算器</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <style>
-        body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:20px;background:#f5f7fa;color:#333}
-        h1{text-align:center;color:#00529b;margin-bottom:10px}
-        .box{background:#fff;border:1px solid #d0d0d0;border-radius:6px;margin-bottom:20px;padding:15px}
-        h2{margin:0 0 10px;font-size:18px;color:#00529b;border-bottom:1px solid #d0d0d0;padding-bottom:5px}
-        .row{display:flex;align-items:center;margin:8px 0}
-        .row label{width:180px;font-weight:bold}
-        .row input[type=number]{width:140px;padding:5px;border:1px solid #bbb;border-radius:3px}
-        .row .unit{margin-left:6px;color:#666}
-        .note{font-size:13px;color:#555;margin:4px 0 10px 180px;line-height:1.4}
-        .subtotal{font-weight:bold;font-size:16px;color:#c00;text-align:right;margin-top:10px}
-        .total{font-weight:bold;font-size:20px;color:#c00;text-align:right;margin-top:15px}
-        button{display:block;margin:20px auto;padding:10px 30px;font-size:16px;background:#00529b;color:#fff;border:none;border-radius:4px;cursor:pointer}
-        button:hover{background:#003d73}
+        html{font-size:20px;}
+        body{font-family:"PingFang SC","Helvetica Neue",Arial,sans-serif;margin:0;padding:1rem;background:#f2f6fc;color:#333;}
+        h1{text-align:center;font-size:2rem;margin:.5rem 0 1rem;color:#00529b;}
+        .box{background:#fff;border:1px solid #d0d0d0;border-radius:8px;margin-bottom:1rem;padding:1rem;}
+        h2{margin:0 0 .8rem;font-size:1.4rem;color:#00529b;border-bottom:2px solid #00529b;padding-bottom:.3rem;}
+        .item{margin:.6rem 0;}
+        .item label{display:block;font-weight:600;font-size:1.1rem;margin-bottom:.2rem;}
+        .item input[type=number]{width:160px;padding:.5rem;font-size:1.1rem;border:1px solid #bbb;border-radius:4px;}
+        .item .unit{margin-left:.5rem;font-size:1rem;color:#666;}
+        .item .note{font-size:.75rem;color:#555;margin:.2rem 0 0 0;line-height:1.3;}
+        .subtotal{font-weight:bold;font-size:1.3rem;color:#c00;text-align:right;margin:.5rem 0;}
+        .total{font-weight:bold;font-size:1.6rem;color:#c00;text-align:right;margin:.8rem 0;}
+        button{display:block;margin:1.5rem auto;padding:.6rem 2rem;font-size:1.2rem;background:#00529b;color:#fff;border:none;border-radius:6px;cursor:pointer;}
+        button:hover{background:#003d73;}
+        footer{text-align:center;font-size:.7rem;color:#888;margin-top:1rem;}
     </style>
 </head>
 <body>
+
 <h1>福建省交通事故赔偿计算器</h1>
 
 <!-- 医疗类 -->
 <div class="box">
-    <h2>一、医疗类项目（小计）</h2>
+    <h2>一、医疗类项目</h2>
 
-    <div class="row"><label>1. 医疗费</label><input id="medFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">凭票据实填；已扣除非医保、不合理费用。</div>
+    <div class="item">
+        <label>1. 医疗费</label>
+        <input id="medFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">凭医疗机构票据据实计算；已扣除非医保、过度医疗、重复、挂床等不合理费用。外购药需附医嘱及合理性说明；18000元以内交强险全额赔付，超出部分再按责任比例分摊。</div>
+    </div>
 
-    <div class="row"><label>2. 住院伙食补助费</label><input id="hospDays" type="number" step="1" value="0" min="0"><span class="unit">天</span></div>
-    <div class="note">60元/天 × 住院天数（系统自动计算）。</div>
+    <div class="item">
+        <label>2. 住院天数</label>
+        <input id="hospDays" type="number" step="1" value="0" min="0"><span class="unit">天</span>
+        <div class="note">60元/天 × 住院天数，仅补住院期间，门诊不计。</div>
+    </div>
 
-    <div class="row"><label>3. 营养费</label><input id="nutriFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">有鉴定按30元/天×营养期+伤残级数×1000元；无鉴定住院按30元/天×住院天数（上限1500元）。</div>
+    <div class="item">
+        <label>3. 营养费</label>
+        <input id="nutriFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">有营养期鉴定：30元/天×营养期+每级伤残1000元（总额≤10000元）；无鉴定但住院：30元/天×住院天数（≤1500元）；无鉴定未住院：医嘱需加强营养酌定≤500元；两种情形不叠加。</div>
+    </div>
 
-    <div class="row"><label>4. 后续治疗费</label><input id="followFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">医嘱或鉴定确定的必然发生费用。</div>
+    <div class="item">
+        <label>4. 后续治疗费</label>
+        <input id="followFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">医嘱或司法鉴定确定的必然发生费用（二次手术、康复治疗等）。</div>
+    </div>
 
     <div class="subtotal">医疗类小计：<span id="medSub">0.00</span> 元</div>
 </div>
 
 <!-- 伤残/死亡及其他类 -->
 <div class="box">
-    <h2>二、伤残/死亡及其他类项目（小计）</h2>
+    <h2>二、伤残/死亡及其他类项目</h2>
 
-    <div class="row"><label>5. 误工费</label><input id="lostWage" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">按实际减少收入或行业标准计算。</div>
+    <div class="item">
+        <label>5. 误工费</label>
+        <input id="lostWage" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">误工天数：门诊1天/次+住院+出院医嘱休息；定残前一日止。收入：固定收入按实际减少；无固定收入按近三年平均或受诉法院地同行业/城镇居民人均可支配收入；超60岁仍工作且有收入可计，离退休返聘不计。</div>
+    </div>
 
-    <div class="row"><label>6. 护理费</label><input id="careFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">住院/出院/定残后按护工标准或依赖程度计算。</div>
+    <div class="item">
+        <label>6. 护理费</label>
+        <input id="careFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">住院期间=当地护工日薪×住院天数；出院后至定残前=鉴定护理期×日薪；定残后按依赖程度（完全100%/大部分80%/部分50%）×居民服务行业标准×年限（≤20年）；ICU期间已含医药费不计；护理人数默认1人。</div>
+    </div>
 
-    <div class="row"><label>7. 交通费</label><input id="trafficFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">凭票据实；无票同城30元/次×门诊/出入院次数。</div>
+    <div class="item">
+        <label>7. 交通费</label>
+        <input id="trafficFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">同城凭票或30元/次×门诊/出入院次数；异地按普通公共交通票据实报，不超公务员出差标准，随行≤2人。</div>
+    </div>
 
-    <div class="row"><label>8. 残疾赔偿金</label><input id="disableFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">福建城镇人均可支配收入×年限×伤残系数。</div>
+    <div class="item">
+        <label>8. 残疾赔偿金</label>
+        <input id="disableFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">福建上一年度城镇居民人均可支配收入×赔偿年限×伤残系数（一级100%…十级10%）；60岁以下20年，60岁以上每增1岁减1年，75岁以上5年；多残以最高级为基数，每增一处加该系数÷2，总附加≤10%。</div>
+    </div>
 
-    <div class="row"><label>9. 残疾辅助器具费</label><input id="aidFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">国产普通型价格×数量×更换次数。</div>
+    <div class="item">
+        <label>9. 残疾辅助器具费</label>
+        <input id="aidFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">国产普通型器具价格×数量×更换次数；更换周期按配置机构或司法鉴定，20年内；受害人≥75岁按剩余寿命计。</div>
+    </div>
 
-    <div class="row"><label>10. 死亡赔偿金</label><input id="deathFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">同残疾赔偿金计算方式（死亡按100%）。</div>
+    <div class="item">
+        <label>10. 死亡赔偿金</label>
+        <input id="deathFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">福建上一年度城镇居民人均可支配收入×赔偿年限（同残疾赔偿金年限规则）。</div>
+    </div>
 
-    <div class="row"><label>11. 被扶养人生活费</label><input id="supportFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">福建城镇人均消费支出×年限×系数÷扶养人数。</div>
+    <div class="item">
+        <label>11. 被扶养人生活费</label>
+        <input id="supportFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">福建上一年度城镇居民人均消费性支出×扶养年限×扶养系数÷扶养人数；未成年人算至18周岁，无劳动能力又无生活来源20年，60岁以上每增1岁减1年，75岁以上5年；多人年赔偿总额累计不超消费支出额；需提供无劳动能力及无生活来源证明。</div>
+    </div>
 
-    <div class="row"><label>12. 精神损害抚慰金</label><input id="spiritFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">参考伤残等级（死亡/一级10万元…十级1万元）。</div>
+    <div class="item">
+        <label>12. 精神损害抚慰金</label>
+        <input id="spiritFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">死亡/一级伤残10万元…十级伤残1万元；未残但近亲属严重精神损害酌定≤1万元；可在交强险内优先赔付。</div>
+    </div>
 
-    <div class="row"><label>13. 财产损失</label><input id="propFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">维修、施救、停运损失等直接/间接损失。</div>
+    <div class="item">
+        <label>13. 财产损失</label>
+        <input id="propFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">直接损失（维修、施救、重置）凭票据；经营性车辆停运损失=日平均利润×停运天数；非经营性车辆替代交通费用酌定。</div>
+    </div>
 
-    <div class="row"><label>14. 鉴定/评估费</label><input id="evalFee" type="number" step="0.01" value="0"><span class="unit">元</span></div>
-    <div class="note">按实际票据，由败诉方承担。</div>
+    <div class="item">
+        <label>14. 鉴定/评估费</label>
+        <input id="evalFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">按实际票据，由败诉方负担。</div>
+    </div>
 
     <div class="subtotal">伤残/死亡及其他类小计：<span id="otherSub">0.00</span> 元</div>
 </div>
@@ -85,34 +131,30 @@
 
 <button onclick="calcAll()">重新计算</button>
 
-<script>
-// 住院伙食补助费自动计算
-document.getElementById('hospDays').addEventListener('input',calcAll);
+<footer>© 2025 蔡建水 版权所有</footer>
 
+<script>
+document.getElementById('hospDays').addEventListener('input',calcAll);
 function calcAll(){
     // 医疗类
-    let medFee     = parseFloat(document.getElementById('medFee').value) || 0;
-    let hospDays   = parseInt(document.getElementById('hospDays').value)   || 0;
-    let hospFood   = hospDays * 60;
-    let nutriFee   = parseFloat(document.getElementById('nutriFee').value) || 0;
-    let followFee  = parseFloat(document.getElementById('followFee').value)|| 0;
-    let medSubTot  = medFee + hospFood + nutriFee + followFee;
+    let medFee    = parseFloat(document.getElementById('medFee').value)    || 0;
+    let hospDays  = parseInt(document.getElementById('hospDays').value)    || 0;
+    let hospFood  = hospDays * 60;
+    let nutriFee  = parseFloat(document.getElementById('nutriFee').value)  || 0;
+    let followFee = parseFloat(document.getElementById('followFee').value) || 0;
+    let medSubTot = medFee + hospFood + nutriFee + followFee;
 
-    // 伤残/死亡及其他类
+    // 其他类
     let otherItems = ['lostWage','careFee','trafficFee','disableFee','aidFee',
                       'deathFee','supportFee','spiritFee','propFee','evalFee'];
     let otherSubTot = 0;
-    otherItems.forEach(function(id){
-        otherSubTot += parseFloat(document.getElementById(id).value) || 0;
-    });
+    otherItems.forEach(id => otherSubTot += parseFloat(document.getElementById(id).value) || 0);
 
     // 显示
     document.getElementById('medSub').textContent     = medSubTot.toFixed(2);
     document.getElementById('otherSub').textContent   = otherSubTot.toFixed(2);
     document.getElementById('grandTotal').textContent = (medSubTot + otherSubTot).toFixed(2);
 }
-
-// 初始计算
 calcAll();
 </script>
 </body>
