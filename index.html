@@ -98,25 +98,31 @@
     </div>
 
     <div class="item">
-        <label>11. 被扶养人生活费</label>
+        <label>11. 丧葬费</label>
+        <input id="funeralFee" type="number" step="0.01" value="0"><span class="unit">元</span>
+        <div class="note">按福建省上一年度职工月平均工资×6个月（系统自动给出常数，可手动调整）。</div>
+    </div>
+
+    <div class="item">
+        <label>12. 被扶养人生活费</label>
         <input id="supportFee" type="number" step="0.01" value="0"><span class="unit">元</span>
         <div class="note">福建上一年度城镇居民人均消费性支出×扶养年限×扶养系数÷扶养人数；未成年人算至18周岁，无劳动能力又无生活来源20年，60岁以上每增1岁减1年，75岁以上5年；多人年赔偿总额累计不超消费支出额；需提供无劳动能力及无生活来源证明。</div>
     </div>
 
     <div class="item">
-        <label>12. 精神损害抚慰金</label>
+        <label>13. 精神损害抚慰金</label>
         <input id="spiritFee" type="number" step="0.01" value="0"><span class="unit">元</span>
         <div class="note">死亡/一级伤残10万元…十级伤残1万元；未残但近亲属严重精神损害酌定≤1万元；可在交强险内优先赔付。</div>
     </div>
 
     <div class="item">
-        <label>13. 财产损失</label>
+        <label>14. 财产损失</label>
         <input id="propFee" type="number" step="0.01" value="0"><span class="unit">元</span>
         <div class="note">直接损失（维修、施救、重置）凭票据；经营性车辆停运损失=日平均利润×停运天数；非经营性车辆替代交通费用酌定。</div>
     </div>
 
     <div class="item">
-        <label>14. 鉴定/评估费</label>
+        <label>15. 鉴定/评估费</label>
         <input id="evalFee" type="number" step="0.01" value="0"><span class="unit">元</span>
         <div class="note">按实际票据，由败诉方负担。</div>
     </div>
@@ -134,7 +140,11 @@
 <footer>© 2025 蔡建水 版权所有</footer>
 
 <script>
-document.getElementById('hospDays').addEventListener('input',calcAll);
+// 福建2024年度职工月平均工资（供丧葬费参考，单位：元）
+const FJ_MONTH_AVG = 8400;
+document.getElementById('funeralFee').placeholder = `示例：${(FJ_MONTH_AVG * 6).toFixed(2)}`;
+
+document.getElementById('hospDays').addEventListener('input', calcAll);
 function calcAll(){
     // 医疗类
     let medFee    = parseFloat(document.getElementById('medFee').value)    || 0;
@@ -144,9 +154,9 @@ function calcAll(){
     let followFee = parseFloat(document.getElementById('followFee').value) || 0;
     let medSubTot = medFee + hospFood + nutriFee + followFee;
 
-    // 其他类
+    // 其他类（含丧葬费）
     let otherItems = ['lostWage','careFee','trafficFee','disableFee','aidFee',
-                      'deathFee','supportFee','spiritFee','propFee','evalFee'];
+                      'deathFee','funeralFee','supportFee','spiritFee','propFee','evalFee'];
     let otherSubTot = 0;
     otherItems.forEach(id => otherSubTot += parseFloat(document.getElementById(id).value) || 0);
 
